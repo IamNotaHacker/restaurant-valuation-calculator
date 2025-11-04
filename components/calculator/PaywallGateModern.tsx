@@ -50,36 +50,51 @@ export default function PaywallGateModern({
   const checkUserAccess = async () => {
     setIsCheckingAccess(true)
 
-    // Check for user email from multiple sources
-    const supabase = getSupabaseBrowserClient()
-    const { data: { user } } = await supabase.auth.getUser()
+    try {
+      // Check for user email from multiple sources
+      const supabase = getSupabaseBrowserClient()
+      const { data: { user } } = await supabase.auth.getUser()
 
-    const email = user?.email ||
-                  localStorage.getItem('userEmail') ||
-                  getGuestEmail()
+      const email = user?.email ||
+                    localStorage.getItem('userEmail') ||
+                    getGuestEmail()
 
-    setUserEmail(email)
+      setUserEmail(email)
 
-    if (email) {
-      // If payment was just completed (within last 10 seconds), trust the local state
-      const accessGrantedAt = localStorage.getItem('accessGrantedAt')
-      if (accessGrantedAt) {
-        const timeSinceGrant = Date.now() - parseInt(accessGrantedAt)
-        if (timeSinceGrant < 10000) {
-          // Trust the payment success, don't override
-          setIsCheckingAccess(false)
-          return
+      if (email) {
+        // If payment was just completed (within last 10 seconds), trust the local state
+        const accessGrantedAt = localStorage.getItem('accessGrantedAt')
+        if (accessGrantedAt) {
+          const timeSinceGrant = Date.now() - parseInt(accessGrantedAt)
+          if (timeSinceGrant < 10000) {
+            // Trust the payment success, grant access immediately
+            setHasAccess(true)
+            setDaysRemaining(30)
+            setIsCheckingAccess(false)
+            return
+          }
         }
+
+        // Check access via API with timeout
+        const access = await checkAccess(email, calculatorType)
+        setHasAccess(access.hasAccess)
+        setDaysRemaining(access.daysRemaining)
+      } else {
+        setHasAccess(false)
       }
-
-      const access = await checkAccess(email, calculatorType)
-      setHasAccess(access.hasAccess)
-      setDaysRemaining(access.daysRemaining)
-    } else {
-      setHasAccess(false)
+    } catch (error) {
+      console.error('Error checking access:', error)
+      // If there's an error but localStorage has email, assume they have access
+      const email = localStorage.getItem('userEmail')
+      if (email) {
+        setHasAccess(true)
+        setDaysRemaining(30)
+      } else {
+        setHasAccess(false)
+      }
+    } finally {
+      setIsCheckingAccess(false)
     }
-
-    setIsCheckingAccess(false)
   }
 
   const handlePaymentSuccess = (email: string) => {
