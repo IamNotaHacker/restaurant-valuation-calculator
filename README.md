@@ -294,7 +294,7 @@ Proprietary - Blue Orbit Restaurant Consulting
 
 ## Support
 
-For support, email info@blueorbitconsulting.com or call 1-800-BLUE-ORBIT
+For support, email info@blueorbitconsulting.com or call (404) 375-1085
 
 ---
 
