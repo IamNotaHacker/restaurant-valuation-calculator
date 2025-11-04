@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import {
   Elements,
   CardElement,
@@ -30,6 +30,10 @@ function PaymentForm({ onClose, onSuccess, calculatorType }: Omit<PaymentModalPr
   const [email, setEmail] = useState('')
   const [isProcessing, setIsProcessing] = useState(false)
   const [succeeded, setSucceeded] = useState(false)
+
+  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value)
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -122,7 +126,7 @@ function PaymentForm({ onClose, onSuccess, calculatorType }: Omit<PaymentModalPr
     }
   }
 
-  const cardElementOptions = {
+  const cardElementOptions = useMemo(() => ({
     style: {
       base: {
         fontSize: '15px',
@@ -136,7 +140,7 @@ function PaymentForm({ onClose, onSuccess, calculatorType }: Omit<PaymentModalPr
         color: '#ef4444',
       },
     },
-  }
+  }), [])
 
   if (succeeded) {
     return (
@@ -161,7 +165,7 @@ function PaymentForm({ onClose, onSuccess, calculatorType }: Omit<PaymentModalPr
           type="email"
           placeholder="you@example.com"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleEmailChange}
           required
           className="mt-1.5 border-gray-200 focus:border-gray-900 focus:ring-gray-900"
         />

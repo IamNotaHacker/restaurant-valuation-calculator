@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Check, ArrowRight, Zap } from 'lucide-react'
 import PaymentModal from '@/components/payment/PaymentModalModern'
@@ -99,6 +99,10 @@ export default function PaywallGateModern({
     // Show success message
     toast.success('Payment successful! Your access is now active.')
   }
+
+  const handleCloseModal = useCallback(() => {
+    setIsPaymentModalOpen(false)
+  }, [])
 
   if (hasAccess === null || isCheckingAccess) {
     return (
@@ -233,7 +237,7 @@ export default function PaywallGateModern({
 
         <PaymentModal
           isOpen={isPaymentModalOpen}
-          onClose={() => setIsPaymentModalOpen(false)}
+          onClose={handleCloseModal}
           onSuccess={handlePaymentSuccess}
           calculatorType={calculatorType}
         />

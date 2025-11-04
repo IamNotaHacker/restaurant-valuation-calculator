@@ -68,9 +68,15 @@ export default function ValuationCalculatorPage() {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
+      // Don't override localStorage-based payment sessions
+      const hasPaymentSession = localStorage.getItem('userEmail')
+
       if (!session) {
-        setIsAuthenticated(false)
-        setShowLoginModal(true)
+        // Only force logout if there's no payment session either
+        if (!hasPaymentSession) {
+          setIsAuthenticated(false)
+          setShowLoginModal(true)
+        }
       } else {
         setIsAuthenticated(true)
         setShowLoginModal(false)
