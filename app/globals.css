@@ -1,0 +1,229 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Refined Premium Color Palette */
+  --background: #FAFAFA;
+  --foreground: #1A1A1A;
+  --card: #FFFFFF;
+  --card-foreground: #1A1A1A;
+  --popover: #FFFFFF;
+  --popover-foreground: #1A1A1A;
+  --primary: #0066FF;
+  --primary-foreground: #FFFFFF;
+  --secondary: #FAFAFA;
+  --secondary-foreground: #1A1A1A;
+  --muted: #F5F5F5;
+  --muted-foreground: #4A5568;
+  --accent: #0066FF;
+  --accent-foreground: #FFFFFF;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --border: rgba(0, 0, 0, 0.06);
+  --border-light: rgba(0, 0, 0, 0.03);
+  --input: rgba(0, 0, 0, 0.06);
+  --ring: #0066FF;
+
+  /* Enhanced text colors for better readability */
+  --text-primary: #1A1A1A;
+  --text-secondary: #4A5568;
+  --text-tertiary: #718096;
+
+  --surface: #FFFFFF;
+  --success: #059669;
+  --warning: #D97706;
+  --radius: 0.5rem;
+
+  /* Accent variations */
+  --accent-light: #E6F0FF;
+  --accent-ultra-light: #F5F9FF;
+
+  /* Glass morphism */
+  --glass: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.8);
+
+  /* Premium Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.02), 0 2px 4px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.03), 0 4px 6px rgba(0, 0, 0, 0.02);
+  --shadow-glow: 0 0 40px rgba(0, 102, 255, 0.08);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.439 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
+}
+
+@theme inline {
+  /* Premium Typography - Inter */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", "Geist Mono Fallback", monospace;
+
+  /* Ultra-Premium Color System */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: 0 102 255;
+  --color-primary-foreground: 255 255 255;
+  --color-secondary: 250 250 250;
+  --color-secondary-foreground: 10 10 10;
+  --color-muted: 245 245 245;
+  --color-muted-foreground: 107 107 107;
+  --color-accent: 0 102 255;
+  --color-accent-foreground: 255 255 255;
+  --color-destructive: 220 38 38;
+  --color-destructive-foreground: 255 255 255;
+  --color-border: 0 0 0 / 0.06;
+  --color-input: 0 0 0 / 0.06;
+  --color-ring: 0 102 255;
+  --radius: 0.5rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+.dark {
+  --color-background: 28 25 23;
+  --color-foreground: 250 250 248;
+  --color-card: 41 37 36;
+  --color-card-foreground: 250 250 248;
+  --color-popover: 41 37 36;
+  --color-popover-foreground: 250 250 248;
+  --color-primary: 147 197 253;
+  --color-primary-foreground: 28 25 23;
+  --color-secondary: 41 37 36;
+  --color-secondary-foreground: 250 250 248;
+  --color-muted: 68 64 60;
+  --color-muted-foreground: 168 162 158;
+  --color-accent: 251 191 36;
+  --color-accent-foreground: 28 25 23;
+  --color-border: 68 64 60;
+  --color-input: 68 64 60;
+  --color-ring: 147 197 253;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Premium Typography Hierarchy */
+  .display-number {
+    font-weight: 200;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .label-text {
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-size: 10px;
+    color: var(--text-tertiary);
+  }
+
+  /* Premium Animations */
+  @keyframes valueUpdate {
+    0% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .value-change {
+    animation: valueUpdate 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .interactive-element {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .interactive-element:hover {
+    transform: translateY(-1px);
+  }
+}
+
+/* Fix slider thumb styling to show solid circles instead of empty outlines */
+@layer components {
+  [role="slider"] {
+    @apply bg-primary border-2 border-primary shadow-sm;
+  }
+
+  [role="slider"]:focus-visible {
+    @apply ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  [role="slider"]:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  /* Glass morphism utility classes */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  }
+
+  .glass-card-hover {
+    transition: all 0.2s ease;
+  }
+
+  .glass-card-hover:hover {
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.09);
+  }
+
+  /* Ensure readability on glass surfaces */
+  .glass-text {
+    color: #1a1a1a;
+    font-weight: 500;
+  }
+}
