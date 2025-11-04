@@ -40,10 +40,13 @@ export async function GET(req: NextRequest) {
         )
       }
 
-      // Redirect to calculator with success message
-      return NextResponse.redirect(
-        new URL('/calculators/valuation?payment_success=true', req.url)
-      )
+      // Redirect to calculator with success message and email
+      const redirectUrl = new URL('/calculators/valuation', req.url)
+      redirectUrl.searchParams.set('payment_success', 'true')
+      if (email) {
+        redirectUrl.searchParams.set('email', email)
+      }
+      return NextResponse.redirect(redirectUrl)
     } else {
       // Payment not complete yet
       return NextResponse.redirect(

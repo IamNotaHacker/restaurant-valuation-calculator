@@ -24,6 +24,31 @@ export default function ValuationCalculatorPage() {
 
   useEffect(() => {
     const checkAuth = async () => {
+      // Check for payment success in URL params
+      const urlParams = new URLSearchParams(window.location.search)
+      const paymentSuccess = urlParams.get('payment_success')
+      const email = urlParams.get('email')
+
+      // If payment just succeeded, store email in localStorage
+      if (paymentSuccess === 'true' && email) {
+        localStorage.setItem('userEmail', email)
+        localStorage.setItem('hasAccess', 'true')
+        setIsAuthenticated(true)
+        setShowLoginModal(false)
+        // Clean up URL params
+        window.history.replaceState({}, '', '/calculators/valuation')
+        return
+      }
+
+      // Check for existing payment session in localStorage
+      const storedEmail = localStorage.getItem('userEmail')
+      if (storedEmail) {
+        setIsAuthenticated(true)
+        setShowLoginModal(false)
+        return
+      }
+
+      // Fall back to Supabase authentication
       const supabase = getSupabaseBrowserClient()
       const { data: { session } } = await supabase.auth.getSession()
 
@@ -65,8 +90,15 @@ export default function ValuationCalculatorPage() {
   }
 
   const handleSignOut = async () => {
+    // Clear Supabase session
     const supabase = getSupabaseBrowserClient()
     await supabase.auth.signOut()
+
+    // Clear payment session from localStorage
+    localStorage.removeItem('userEmail')
+    localStorage.removeItem('hasAccess')
+
+    // Reset auth state
     setIsAuthenticated(false)
     setShowLoginModal(true)
   }
