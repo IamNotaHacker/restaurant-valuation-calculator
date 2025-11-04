@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Logo } from "@/components/layout/Logo"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -11,6 +12,24 @@ import { LoginModal } from "@/components/login-modal"
 
 export default function Page() {
   const [showLoginModal, setShowLoginModal] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const router = useRouter()
+
+  useEffect(() => {
+    // Check if user is already logged in via payment session
+    const userEmail = localStorage.getItem('userEmail')
+    setIsLoggedIn(!!userEmail)
+  }, [])
+
+  const handleCalculatorAccess = () => {
+    if (isLoggedIn) {
+      // User already has access, navigate directly
+      router.push('/calculators/valuation')
+    } else {
+      // Show login modal
+      setShowLoginModal(true)
+    }
+  }
 
   return (
     <>
@@ -62,7 +81,7 @@ export default function Page() {
                   size="lg"
                   variant="outline"
                   className="border-2 hover:bg-gray-50 text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 h-auto w-full sm:w-auto"
-                  onClick={() => setShowLoginModal(true)}
+                  onClick={handleCalculatorAccess}
                 >
                   Valuation Calculator <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                 </Button>
